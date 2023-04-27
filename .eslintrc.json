@@ -19,11 +19,11 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "semi": [
+        "@typescript-eslint/semi": [
             "error",
             "always"
         ],
-        "@typescript-eslint/semi": "error",
+        "@typescript-eslint/member-delimiter-style": "error",
         "quotes": [
             "error",
             "double",
@@ -35,16 +35,11 @@
             "error",
             120
         ],
-        "react/jsx-one-expression-per-line": "off",
         "react/react-in-jsx-scope": "off",
         "eol-last": "error",
         "arrow-spacing": "error",
         "block-spacing": "error",
         "rest-spread-spacing": "error",
-        "object-curly-spacing": [
-            "error",
-            "always"
-        ],
         "react/jsx-indent": [
             2,
             2
@@ -60,6 +55,59 @@
         "comma-dangle": [
             "error",
             "always-multiline"
+        ],
+        "@typescript-eslint/no-namespace": "off",
+        "@typescript-eslint/type-annotation-spacing": "error",
+        "@typescript-eslint/object-curly-spacing": [
+            "error",
+            "always"
+        ],
+        "react/jsx-wrap-multilines": [
+            "error",
+            {
+                "declaration": "parens-new-line",
+                "assignment": "parens-new-line",
+                "return": "parens-new-line",
+                "arrow": "parens-new-line",
+                "condition": "parens-new-line",
+                "logical": "parens-new-line",
+                "prop": "parens-new-line"
+            }
+        ],
+        "react/jsx-indent-props": [
+            "error",
+            2
+        ],
+        "react/jsx-closing-bracket-location": [
+            "error",
+            "line-aligned"
+        ],
+        "react/jsx-closing-tag-location": "error",
+        "react/jsx-curly-spacing": [
+            "error",
+            "never",
+            {
+                "allowMultiline": true
+            }
+        ],
+        "react/jsx-tag-spacing": [
+            "error",
+            {
+                "closingSlash": "never",
+                "beforeSelfClosing": "always",
+                "afterOpening": "never",
+                "beforeClosing": "never"
+            }
+        ],
+        "react/jsx-space-before-closing": [
+            "off",
+            "always"
+        ],
+        "react/jsx-one-expression-per-line": [
+            "error",
+            {
+                "allow": "single-child"
+            }
         ]
     }
 }
