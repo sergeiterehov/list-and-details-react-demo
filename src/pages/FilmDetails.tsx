@@ -1,12 +1,12 @@
 import { Box, Link, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
-import api from "../api/api";
+import { useGetFilmQuery } from "../api/api";
 import ReactLink from "../components/ReactLink";
 
 const FilmDetails: React.FC = () => {
   const { id } = useParams();
 
-  const { data, isLoading } = api.useGetFilmQuery({ id: Number(id) });
+  const { data, isLoading } = useGetFilmQuery({ id: Number(id) });
 
   return (
     <Box>

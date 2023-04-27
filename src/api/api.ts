@@ -43,4 +43,4 @@ const api = createApi({
 
 export default api;
 
-export const { useGetFilmsQuery } = api;
+export const { useGetFilmsQuery, useGetFilmQuery } = api;
