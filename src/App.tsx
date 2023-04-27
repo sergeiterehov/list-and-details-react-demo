@@ -1,12 +1,17 @@
-import { useGetFilmsQuery } from "./api/api";
+import { CssBaseline } from "@mui/material";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Films from "./pages/Films";
+
+const router = createBrowserRouter([
+  { path: "/", element: <Films /> },
+]);
 
 const App: React.FC = () => {
-  const { data } = useGetFilmsQuery();
-
   return (
-    <div className="App">
-      TEST
-    </div>
+    <>
+      <CssBaseline />
+      <RouterProvider router={router} />
+    </>
   );
 };
 
