@@ -38,9 +38,24 @@ const api = createApi({
     getFilm: build.query<Api.FilmDetailsResponse, { id: number }>({
       query: ({ id }) => `/films/${id}`,
     }),
+    patchFilm: build.mutation<void, { id: number; data: Partial<Api.Film> }>({
+      queryFn: ({ id, data }, baseApi) => {
+        baseApi.dispatch(
+          api.util.updateQueryData("getFilm", { id }, (draft: Api.FilmDetailsResponse | undefined) => {
+            if (!draft) return;
+
+            Object.assign(draft, data);
+          }),
+        );
+
+        // Список не будем обновлять
+
+        return { data: undefined };
+      },
+    }),
   }),
 });
 
 export default api;
 
-export const { useGetFilmsQuery, useGetFilmQuery } = api;
+export const { useGetFilmsQuery, useGetFilmQuery, usePatchFilmMutation } = api;

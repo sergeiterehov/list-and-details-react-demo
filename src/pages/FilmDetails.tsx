@@ -1,15 +1,25 @@
 import { Box, Container, Link, Skeleton, Stack, Typography } from "@mui/material";
+import { useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { useTitle } from "react-use";
-import { useGetFilmQuery } from "../api/api";
+import { useGetFilmQuery, usePatchFilmMutation } from "../api/api";
+import EditableTitle from "../components/EditableTitle";
 import ReactLink from "../components/ReactLink";
 
 const FilmDetails: React.FC = () => {
   const { id } = useParams();
 
   const { data, isLoading } = useGetFilmQuery({ id: Number(id) });
+  const [patchFilm] = usePatchFilmMutation();
 
   useTitle(data ? data.title : "Loading film...");
+
+  const renameHandler = useCallback((newName: string) => {
+    patchFilm({
+      id: Number(id),
+      data: { title: newName },
+    });
+  }, [id, patchFilm]);
 
   return (
     <Container maxWidth="md">
@@ -28,7 +38,7 @@ const FilmDetails: React.FC = () => {
 
         return (
           <>
-            <Typography variant="h1">{data.title}</Typography>
+            <EditableTitle title={data.title} onRename={renameHandler} />
             <Typography>{data.opening_crawl}</Typography>
             <Box mt={2} color="GrayText">
               <Typography>{`Released: ${data.release_date}`}</Typography>
