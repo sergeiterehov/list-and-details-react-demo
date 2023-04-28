@@ -30,6 +30,11 @@ const FilmDetails: React.FC = () => {
           <>
             <Typography variant="h1">{data.title}</Typography>
             <Typography>{data.opening_crawl}</Typography>
+            <Box mt={2} color="GrayText">
+              <Typography>{`Released: ${data.release_date}`}</Typography>
+              <Typography>{`Director: ${data.director}`}</Typography>
+              <Typography>{`Producer: ${data.producer}`}</Typography>
+            </Box>
           </>
         );
       })()}
