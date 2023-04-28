@@ -1,6 +1,6 @@
-import { Box, Link, Skeleton, Stack, Typography } from "@mui/material";
+import { Box, Container, Link, Pagination, Skeleton, Stack, Typography } from "@mui/material";
 import { useCallback, useState } from "react";
-import { useDebounce } from "react-use";
+import { useDebounce, useTitle } from "react-use";
 import { useGetFilmsQuery } from "../api/api";
 import ReactLink from "../components/ReactLink";
 import SearchInput from "../components/SearchInput";
@@ -14,12 +14,14 @@ const Films: React.FC = () => {
 
   useDebounce(() => setSearch(searchValue), 1000, [searchValue]);
 
+  useTitle("All Films");
+
   const changeSearchHandler = useCallback((newText: string) => setSearchValue(newText), []);
 
   return (
-    <Box>
+    <Container maxWidth="md">
       <Typography variant="h1">All SW films</Typography>
-      <Box mb={2}>
+      <Box mb={4}>
         <SearchInput text={searchValue} onChange={changeSearchHandler} />
       </Box>
       {isFetching ? (
@@ -32,29 +34,32 @@ const Films: React.FC = () => {
         if (!data) return null;
 
         return (
-          <Stack>
-            {data.results.map((film) => {
-              return (
-                <Link key={film.episode_id}
-                  underline="none"
-                  color="inherit"
-                  sx={{ "&:hover, &:focus": {
-                    backgroundColor: "Highlight",
-                  } }}
-                  href={`/film/${getFilmIdByUrl(film.url)}`}
-                  component={ReactLink}
-                >
-                  <Box p={1}>
-                    <Box fontWeight={600}>{film.title}</Box>
-                    <Box>{`${film.director}, ${film.release_date.substring(0, 4)}`}</Box>
-                  </Box>
-                </Link>
-              );
-            })}
-          </Stack>
+          <Box>
+            <Stack>
+              {data.results.map((film) => {
+                return (
+                  <Link key={film.episode_id}
+                    underline="none"
+                    color="inherit"
+                    sx={{ "&:hover, &:focus": {
+                      backgroundColor: "ButtonHighlight",
+                    } }}
+                    href={`/film/${getFilmIdByUrl(film.url)}`}
+                    component={ReactLink}
+                  >
+                    <Box p={1}>
+                      <Box fontWeight={600}>{film.title}</Box>
+                      <Box>{`${film.director}, ${film.release_date.substring(0, 4)}`}</Box>
+                    </Box>
+                  </Link>
+                );
+              })}
+            </Stack>
+            <Pagination hidePrevButton hideNextButton count={10} sx={{ mt: 4 }} />
+          </Box>
         );
       })()}
-    </Box>
+    </Container>
   );
 };
 

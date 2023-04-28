@@ -9,10 +9,7 @@ const SearchInput: React.FC<{ text?: string; onChange?: (newText: string) => voi
   );
 
   return (
-    <Paper
-      component="form"
-      sx={{ p: "2px 4px", display: "flex", alignItems: "center", width: 400 }}
-    >
+    <Paper sx={{ p: "2px 4px", display: "flex", alignItems: "center", width: 400 }}>
       <SearchOutlined sx={{ fontSize: 24 }} />
       <InputBase
         sx={{ ml: 1, flex: 1 }}

@@ -1,5 +1,6 @@
-import { Box, Link, Skeleton, Stack, Typography } from "@mui/material";
+import { Box, Container, Link, Skeleton, Stack, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
+import { useTitle } from "react-use";
 import { useGetFilmQuery } from "../api/api";
 import ReactLink from "../components/ReactLink";
 
@@ -8,9 +9,13 @@ const FilmDetails: React.FC = () => {
 
   const { data, isLoading } = useGetFilmQuery({ id: Number(id) });
 
+  useTitle(data ? data.title : "Loading film...");
+
   return (
-    <Box>
-      <Box mb={2}><Link href="/" component={ReactLink}>All films</Link></Box>
+    <Container maxWidth="md">
+      <Box mb={2}>
+        <Link href="/" component={ReactLink}>Show all films</Link>
+      </Box>
       {isLoading ? (
         <Stack gap={1}>
           <Skeleton variant="rectangular" height={60} width="60%" sx={{ mb: 3 }} />
@@ -28,7 +33,7 @@ const FilmDetails: React.FC = () => {
           </>
         );
       })()}
-    </Box>
+    </Container>
   );
 };
 
