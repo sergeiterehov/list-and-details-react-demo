@@ -1,22 +1,44 @@
 import { Box, Container, Link, Pagination, Skeleton, Stack, Typography } from "@mui/material";
 import { useCallback, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useDebounce, useTitle } from "react-use";
 import { useGetFilmsQuery } from "../api/api";
 import ReactLink from "../components/ReactLink";
 import SearchInput from "../components/SearchInput";
 import { getFilmIdByUrl } from "../utils/id";
 
+const enum SearchParam {
+  Search = "s",
+  Page = "page",
+}
+
+const ItemsPerPage = 10;
+
 const Films: React.FC = () => {
-  const [searchValue, setSearchValue] = useState("");
-  const [search, setSearch] = useState(searchValue);
+  const [params, setParams] = useSearchParams();
 
-  const { data, isFetching } = useGetFilmsQuery({ search });
+  const page = Number(params.get(SearchParam.Page)) || 1;
+  const search = params.get(SearchParam.Search) || "";
 
-  useDebounce(() => setSearch(searchValue), 1000, [searchValue]);
+  const [searchValue, setSearchValue] = useState(search);
+
+  const { data, isFetching, isError } = useGetFilmsQuery({ search, page });
 
   useTitle("All Films");
 
+  useDebounce(() => setParams({ [SearchParam.Search]: searchValue }), 1000, [searchValue]);
+
   const changeSearchHandler = useCallback((newText: string) => setSearchValue(newText), []);
+
+  const changePageHandler = useCallback((event: React.ChangeEvent<unknown>, newPage: number) => setParams({
+    [SearchParam.Search]: searchValue,
+    [SearchParam.Page]: String(newPage),
+  }), []);
+
+  const resetFiltersHandler = useCallback(() => {
+    setParams({});
+    setSearchValue("");
+  }, []);
 
   return (
     <Container maxWidth="md">
@@ -31,6 +53,16 @@ const Films: React.FC = () => {
           <Skeleton variant="rectangular" height={60} width="30%" />
         </Stack>
       ) : (() => {
+        if (isError) {
+          return (
+            <Box>
+              Oops!
+              <br />
+              <Link component={ReactLink} onClick={resetFiltersHandler}>Reset filters</Link>
+            </Box>
+          );
+        }
+
         if (!data) return null;
 
         return (
@@ -55,7 +87,15 @@ const Films: React.FC = () => {
                 );
               })}
             </Stack>
-            <Pagination hidePrevButton hideNextButton count={10} sx={{ mt: 4 }} />
+            <Pagination
+              hidePrevButton
+              hideNextButton
+              sx={{ mt: 4 }}
+              // count={Math.ceil(data.count / ItemsPerPage)}
+              count={4} // Для демонстрации
+              page={page}
+              onChange={changePageHandler}
+            />
           </Box>
         );
       })()}
