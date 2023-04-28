@@ -33,12 +33,12 @@ const Films: React.FC = () => {
   const changePageHandler = useCallback((event: React.ChangeEvent<unknown>, newPage: number) => setParams({
     [SearchParam.Search]: searchValue,
     [SearchParam.Page]: String(newPage),
-  }), []);
+  }), [searchValue, setParams]);
 
   const resetFiltersHandler = useCallback(() => {
     setParams({});
     setSearchValue("");
-  }, []);
+  }, [setParams]);
 
   return (
     <Container maxWidth="md">
