@@ -38,7 +38,7 @@ const api = createApi({
     getFilm: build.query<Api.FilmDetailsResponse, { id: number }>({
       query: ({ id }) => `/films/${id}`,
     }),
-    patchFilm: build.mutation<void, { id: number; data: Partial<Api.Film> }>({
+    patchFilm: build.mutation<null, { id: number; data: Partial<Api.Film> }>({
       queryFn: ({ id, data }, baseApi) => {
         baseApi.dispatch(
           api.util.updateQueryData("getFilm", { id }, (draft: Api.FilmDetailsResponse | undefined) => {
@@ -50,7 +50,7 @@ const api = createApi({
 
         // Список не будем обновлять
 
-        return { data: undefined };
+        return { data: null };
       },
     }),
   }),
